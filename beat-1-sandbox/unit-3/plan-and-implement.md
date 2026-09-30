@@ -309,6 +309,52 @@ $ git diff --check
 Exit status: 0
 ```
 
+## Live plan check (step 8)
+
+Claude CLI ran in the Path Review fork with the installed plan-check skill,
+the issue URL, plan.md, and comment.md, using sonnet in noninteractive mode.
+Read-only skill/file/GitHub tools were allowed; no tests, eval harness, edits,
+comments, or pushes were requested. The live check returned:
+
+```json
+{
+  "item": "https://github.com/codepath/pathreview-ai301-fa26-s1/issues/72",
+  "checks": [
+    {
+      "name": "diagnosis-grounding",
+      "grade": "pass",
+      "evidence": "Catching ValueError explains both observed exception types: UnknownHashError (inherits ValueError) for unrecognized formats and a bare ValueError ('not enough values to unpack') for the bcrypt-prefixed malformed case."
+    },
+    {
+      "name": "bounded-scope",
+      "grade": "pass",
+      "evidence": "Scope limited to core/security.py and tests/unit/test_security.py, matching issue's 'Relevant files', with explicit out-of-scope list."
+    },
+    {
+      "name": "executable-approach",
+      "grade": "pass",
+      "evidence": "Names verify_password's pwd_context.verify call and the try/except ValueError -> return False change; matches actual code at core/security.py."
+    },
+    {
+      "name": "decisive-test-plan",
+      "grade": "pass",
+      "evidence": "Reruns the four malformed inputs plus valid/wrong-password controls through the real function, expects False without exception, plus --runxfail regression check."
+    },
+    {
+      "name": "honest-uncertainty",
+      "grade": "pass",
+      "evidence": "Risks section names ValueError's broader catch surface as a tradeoff, excludes the unrelated bcrypt warning, and Deviations section accurately reports no implementation deviation occurred."
+    },
+    {
+      "name": "thread-and-conventions",
+      "grade": "pass",
+      "evidence": "comment.md independently restates diagnosis/plan/validation in the student's own words, uses branch fix/72-malformed-password-hashes per CONTRIBUTING.md convention, and correctly treats other classmates' plans as non-blocking."
+    }
+  ],
+  "verdict": "accept"
+}
+```
+
 ## Eval iterations
 
 **Run history**
@@ -327,13 +373,15 @@ agreement: 19/20 scored items  (bar: 18/20: PASS)
 
 This is the only recorded full run. No partial reruns or canaries were performed.
 The last score above matches eval-run.txt. Its device username in the graded
-path was replaced with user for privacy; scores and fingerprints are unchanged. All four recorded
+path was replaced with user for privacy; scores and fingerprints are unchanged.
+The older Unit 2 eval record received the same path-only privacy redaction. All four recorded
 skill fingerprints match both the installed files and tools/plan-check/.
 The only disagreement was pkg-14: gold accept, model reject, with
 `failed: executable-approach`. No rubric changes were made after this run.
 The earlier direct plan reviews are separate from this scored eval and are
-not counted as eval iterations. A live Claude CLI plan check is being completed
-separately for assignment step 8.
+not counted as eval iterations. The live Claude CLI plan check for step 8
+completed with accept; all six required checks passed and no voice violations
+were reported. This is separate from the scored 20-package eval.
 
 **Package analysis**
 
