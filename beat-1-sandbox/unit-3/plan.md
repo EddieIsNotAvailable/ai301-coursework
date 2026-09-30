@@ -105,8 +105,12 @@ possible hash. This validation is local on the environment listed above; no clai
 of cross-platform or full-stack coverage is made. Passlib emits a trapped bcrypt
 version warning even on the successful control; fixing that compatibility warning
 would require unrelated dependency work and is excluded. Full repo/CI validation
-belongs to the Unit 4 PR; this Unit 3 change uses focused checks. Paid rubric evals
-are skipped by request, so no agreement score is claimed.
+belongs to the Unit 4 PR; this Unit 3 change uses focused checks.
+At the time of implementation, paid rubric evals were skipped by request.
+The student subsequently ran one full sonnet eval: 19/20 agreement, with at
+least one match in every category. The unmodified generated eval-run.txt and
+run history are now included in the course submission; no additional run is
+planned.
 
 ## Deviations
 
@@ -114,4 +118,8 @@ The build followed the posted plan: verification now catches ValueError, the
 strict xfail was removed, all four malformed hashes are regression cases, and
 an unrelated RuntimeError remains visible. No implementation deviation was
 needed. The local security module passed all 29 tests, and focused Ruff, Black,
-mypy, and diff checks passed. Paid evals stayed skipped as requested.
+mypy, and diff checks passed. No paid eval was invoked during implementation.
+The student later supplied a full passing eval (19/20), which is now recorded
+in the submission. This updated evaluation record does not change the posted
+implementation approach. Both pushes were reversed at the student's request;
+local work remains ready for review and later approved publication.

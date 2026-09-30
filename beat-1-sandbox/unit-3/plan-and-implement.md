@@ -41,7 +41,8 @@ Fork: https://github.com/EddieIsNotAvailable/pathreview-ai301-fa26-s1
 
 Fresh Unit 3 reproduction through the real core.security functions, before and
 after the fix. Unit 2 files were not changed or used as my own report. The same
-script is included in plan.md and repro.py; local command logs follow verbatim.
+script is included in plan.md; local command logs follow below. Device usernames
+in filesystem paths have been replaced with user for privacy; results are unchanged.
 Only the local security module and focused static checks ran; no API-backed
 checks ran. The trapped bcrypt-version warning occurs on both successful controls
 and is outside the fix. The Pydantic warning is also pre-existing.
@@ -312,26 +313,41 @@ Exit status: 0
 
 **Run history**
 
-No Unit 3 eval harness runs were performed. Full runs, --only retries, and smoke
-runs were all skipped at the user's request to conserve API credits. There is
-no agreement score or generated eval-run.txt. The existing eval-run.txt is the
-unchanged starter placeholder, not a run record. Direct plan reviews are saved
-in plan-check-before.md and plan-check-after.md; they are not eval runs and do
-not establish agreement with the twenty gold labels. The installed skill passed
-the local skill-format validator. Claude CLI was not invoked.
+One full run was completed by the student on September 30, 2026, using the
+installed skill and the harness's pinned sonnet model:
+
+```bash
+python3 run_eval.py --rubric ~/.claude/skills/plan-check/rubric.md --evidence ~/.claude/skills/plan-check/references/evidence-guide.md --save-run eval-run.txt
+```
+
+```text
+categories: clear-accept 6/7  scope-creep 4/4  thread-convention 2/2  unbuildable 3/3  wrong-cause 4/4
+agreement: 19/20 scored items  (bar: 18/20: PASS)
+```
+
+This is the only recorded full run. No partial reruns or canaries were performed.
+The last score above matches eval-run.txt. Its device username in the graded
+path was replaced with user for privacy; scores and fingerprints are unchanged. All four recorded
+skill fingerprints match both the installed files and tools/plan-check/.
+The only disagreement was pkg-14: gold accept, model reject, with
+`failed: executable-approach`. No rubric changes were made after this run.
+The earlier direct plan reviews are separate from this scored eval and are
+not counted as eval iterations. A live Claude CLI plan check is being completed
+separately for assignment step 8.
 
 **Package analysis**
 
-Static reading of pkg-01 (not a harness run): applying the written rubric gives
-reject; the staff gold label in eval/gold-labels.json is also reject. The package
+In the saved full run, the rubric/model verdict for pkg-01 was reject and the
+staff gold label was also reject. The recorded row agrees with the gold label.
+The package
 states: "the error is raised by argparse's `parse_args` while consuming
 positionals; the request items are never handed to HTTPie's item parser."
 Its candidate instead says: "The `REQUEST_ITEM` tokenizer in
 `httpie/cli/requestitems.py` is the problem." The control accepts the same items
 without -v, and the debug evidence locates failure before that tokenizer. The
 proposed tokenizer rewrite therefore fails diagnosis-grounding and cannot
-resolve the evidenced cause. This explains the verdict without claiming an
-executed model result or a measured agreement score.
+resolve the evidenced cause. This evidence explains why the saved model verdict
+and the gold label agree.
 
 **Check rationale**
 
@@ -354,14 +370,31 @@ The diagnosis check permits a labeled, bounded hypothesis rather than requiring
 proof of every internal detail before a plan exists. That may admit a plausible
 hypothesis that a later verification disproves; the verification must happen
 before implementation. This preserves useful investigation plans without
-accepting certainty that contradicts a reproduction. No paid canary or full run
-was performed, so changes elsewhere in the eval set are unmeasured. Manual
+accepting certainty that contradicts a reproduction.
+
+The full run agreed on 19 of 20 packages, but pkg-14 shows a cost of the
+executable-approach check: the model rejected a plan naming the Unix reattach
+handshake and affected crates, reporting only `failed: executable-approach`.
+The saved output does not include the model's detailed reasoning; deferring
+exact functions until tracing is a possible source of the rejection. The gold label accepts that bounded investigation. The package says
+"exact functions to be pinned in the PR after tracing the query issuance with
+debug logs" and gives the criterion "before pane input is wired". My reading
+is that these can satisfy the rubric's allowance for a bounded investigation,
+but the recorded model verdict still rejected this check. Requiring an executable starting
+point helps hold vague plans, yet can also reject a workable plan that defers
+exact function names. I kept the scored rubric unchanged rather than loosen it
+after a passing run and invalidate the saved fingerprints. No partial reruns
+or canaries were performed; no improvement beyond this run is claimed. Manual
 regressions can satisfy decisive-test-plan when their trigger and outcome are
 concrete; automated tests are not a universal requirement. In this build,
 automated security regressions were appropriate and all 29 passed.
 
 ---
 
-The paid-eval deliverable remains intentionally uncompleted. No score, model
-run, or eval-run fingerprint has been fabricated. Submit the entire course repo:
+The saved full eval meets the assignment's 18/20 target and every-category
+condition. The posted comment above is preserved exactly as posted; its note
+about skipping paid runs describes the intention at posting time, before the
+student subsequently ran the full eval. The implementation did not change.
+The implementation branch and coursework updates are local, awaiting approval
+to push after the earlier pushes were reversed. Submit the entire course repo:
 https://github.com/EddieIsNotAvailable/ai301-coursework
