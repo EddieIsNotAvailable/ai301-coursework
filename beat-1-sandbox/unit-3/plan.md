@@ -93,7 +93,8 @@ cover valid hashes, case sensitivity, empty passwords, special characters,
 whitespace, long inputs, and JWT controls. Confirm the monkeypatched RuntimeError
 still propagates. Run ruff, Black --check, and mypy on the affected files.
 Save raw commands, output, and exit statuses before and after in the course
-write-up. No eval harness, Claude CLI, LLM call, or paid test is part of validation.
+write-up. These implementation checks make no LLM or API calls; the scored
+rubric eval and live plan check are separate assignment checks.
 
 ## Risks and unknowns
 
@@ -108,8 +109,9 @@ would require unrelated dependency work and is excluded. Full repo/CI validation
 belongs to the Unit 4 PR; this Unit 3 change uses focused checks.
 At the time of implementation, paid rubric evals were skipped by request.
 The student subsequently ran one full sonnet eval: 19/20 agreement, with at
-least one match in every category. The unmodified generated eval-run.txt and
-run history are now included in the course submission; no additional run is
+least one match in every category. The generated eval-run.txt and run history
+are now included in the course submission. Only the device username in the
+eval header was redacted for privacy; scores and fingerprints are unchanged; no additional run is
 planned.
 
 ## Deviations
@@ -121,5 +123,5 @@ needed. The local security module passed all 29 tests, and focused Ruff, Black,
 mypy, and diff checks passed. No paid eval was invoked during implementation.
 The student later supplied a full passing eval (19/20), which is now recorded
 in the submission. This updated evaluation record does not change the posted
-implementation approach. Both pushes were reversed at the student's request;
-local work remains ready for review and later approved publication.
+implementation approach. The live Claude plan check subsequently accepted
+the package with all six checks passing. The implementation remained unchanged.
