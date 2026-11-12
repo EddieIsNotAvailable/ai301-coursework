@@ -55,10 +55,9 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: [one line on the tool work]**
+**Unit 5: Built issue-scout, then fixed a search gap and a rubric flaw that let untakeable issues through**
 
-[2-4 sentences: what you built (the scout, your strategy), what broke
-or fell short, what changed because of it.]
+I turned my Unit 1 grader into issue-scout, which runs six `gh search issues` queries, one per language in my profile (Python, JS, TS, Go, Java, C), for unassigned `good first issue` + `bug` issues, drops issues the repo owner filed on their own solo repo, keeps one issue per repo, and grades the top five with my rubric. My first scan wasted two of its five grading slots on issues that already had open PRs, because search results don't show linked PRs, so I added `-linked:pr` to every query and confirmed that both issues disappear with it and return without it. Grading my Issue Selection site picks exposed a bigger flaw: the scout accepted session-desktop#255, a Linux-only icon bug I couldn't reproduce or test on my Mac, because no check asked whether an issue is testable on my platform. I added a required "Platform testable" check that fails issues confined to another OS (my platform is fixed as macOS arm64 so the grader doesn't have to detect it), and a re-grade now rejects #255 while the platform-independent pants#13825 still passes.
 
 **Unit 6: [one line on the tool work]**
 
